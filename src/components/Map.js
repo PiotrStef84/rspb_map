@@ -25,8 +25,22 @@ const mapContainerStyle = {
      
   }
 
+  const options = {
+    disableDefaultUI: false,
+    zoomControl: true,
+    mapTypeId: "satellite",
+    restriction: {
+      latLngBounds: Rainforest,
+      strictBounds: false,
+    }
+  };
+
+
 
 function Map() {
+
+
+
     const [locationInfo, setLocationInfo] = useState(null)
     const [newSquares, setSquares] = useState([]);
        
@@ -50,7 +64,9 @@ function Map() {
         mapContainerStyle={mapContainerStyle}
         bounds={Rainforest}
         zoom={14}
+        // onLoad={onLoad}
         center={center}
+        options={options}
         onClick={(event) => {
           async function getCoord(){
             try{
@@ -97,7 +113,7 @@ function Map() {
         
         <Border/>
         </GoogleMap>
-        {locationInfo && <LocationInfoBox info={locationInfo}/>}
+        {locationInfo && <LocationInfoBox info={locationInfo} onClick={() => setLocationInfo(null)} onClick2={() => console.log("hello")}/>}
         </div>
         </>
   )
