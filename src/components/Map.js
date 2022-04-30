@@ -1,11 +1,22 @@
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import Data from "./squares.json"
+
+// import Data from "./squares.json"
+import Data from "./newJson.json"
+
 import Square from "./Square";
 import Border from "./Border";
 import LocationInfoBox from "./LocationInfoBox";
 
 
 import {useState} from 'react'
+
+const newSquareOptions = {
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    fillOpacity: 0.35,
+  }
 
 const mapContainerStyle = {
     width: "100vw",
@@ -22,8 +33,7 @@ const mapContainerStyle = {
     south: 56.664649218979356,
     west: -5.817252513732902,
     east: -5.71193825897216,
-     
-  }
+  };
 
   const options = {
     disableDefaultUI: false,
@@ -40,13 +50,38 @@ const mapContainerStyle = {
 function Map() {
 
 
-
     const [locationInfo, setLocationInfo] = useState(null)
     const [newSquares, setSquares] = useState([]);
        
    const squares = Data.map(ev =>{
-       return <Square north={ev.north} south={ev.south} east={ev.east} west={ev.west} onClick={() => setLocationInfo({id: ev.id, words: ev.words})}/>
+       return <Square id={ev.id} north={ev.north} south={ev.south} east={ev.east} west={ev.west} onClick={() => setLocationInfo({id: ev.id, words: ev.words})} options={newSquareOptions}/>
    })
+
+  function replaceSquares(){
+    
+      for (let i = 0; i < newSquares.length; i++) {
+
+        if(newSquares[i].id === 100){         
+          const id = Data.length;
+          const north = newSquares[i].north;
+          const east = newSquares[i].east;
+          const south = newSquares[i].south;
+          const west =  newSquares[i].west;
+          const words = newSquares[i].words;
+                  
+          newSquares.splice(i, 1)
+          i--;
+          console.log("HEY")
+        
+          Data.push({
+            id: id,
+            north: north,
+            east: east,
+            south: south,
+            west: west,
+            words: words,
+          })
+        }}}
   
     const {isLoaded, loadError} = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -64,7 +99,6 @@ function Map() {
         mapContainerStyle={mapContainerStyle}
         bounds={Rainforest}
         zoom={14}
-        // onLoad={onLoad}
         center={center}
         options={options}
         onClick={(event) => {
@@ -89,6 +123,7 @@ function Map() {
 
               console.log(words)
               setSquares(current =>[...current, {
+                id: 100,
                 north: north,
                 east: east,
                 south: south,
@@ -106,14 +141,14 @@ function Map() {
         >
           {newSquares.map(ev =>(
             <Square key={ev.time.toISOString()} 
-            north={ev.north} south={ev.south} east={ev.east} west={ev.west} onClick={() => setLocationInfo({id: 100, words: ev.words})}/>
+            id={ev.id} north={ev.north} south={ev.south} east={ev.east} west={ev.west} onClick={() => setLocationInfo({id: 100, words: ev.words})}/>
           ))}
 
         {squares}
         
         <Border/>
         </GoogleMap>
-        {locationInfo && <LocationInfoBox info={locationInfo} onClick={() => setLocationInfo(null)} onClick2={() => console.log("hello")}/>}
+        {locationInfo && <LocationInfoBox info={locationInfo} onClick={() => setLocationInfo(null)} onClick2={() => replaceSquares(locationInfo.id)}/>}
         </div>
         </>
   )
@@ -121,3 +156,6 @@ function Map() {
 
 
 export default Map
+
+
+

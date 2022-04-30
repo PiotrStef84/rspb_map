@@ -3,7 +3,7 @@ import { Rectangle } from "@react-google-maps/api";
 
 import React from 'react'
 
-function Square({north, south, east, west, onClick}) {
+function Square({id,north, south, east, west, onClick, options}) {
 
     const bounds = {
         north: north,
@@ -12,13 +12,13 @@ function Square({north, south, east, west, onClick}) {
         west: west
       }
 
-      const options ={
-        strokeColor: "#FF0000",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: "#FF0000",
-        fillOpacity: 0.35,
-      }
+      // const options ={
+      //   strokeColor: "#FF0000",
+      //   strokeOpacity: 0.8,
+      //   strokeWeight: 2,
+      //   fillColor: "#FF0000",
+      //   fillOpacity: 0.35,
+      // }
 
   return (
     
@@ -29,6 +29,18 @@ function Square({north, south, east, west, onClick}) {
     />
     
   )
+}
+
+Square.defaultProps = {
+  options: {
+    strokeColor: "#0000FF",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#0000FF",
+    fillOpacity: 0.35,
+  },
+  id: 100
+  
 }
 
 export default Square

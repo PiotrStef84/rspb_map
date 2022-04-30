@@ -9,8 +9,8 @@ const LocationInfoBox = ({info, onClick, onClick2}) => {
           <li>ID: <strong>{info.id}</strong></li>
           <li>words: <strong>{info.words}</strong></li>
       </ul>
-      <button onClick={onClick}>Click me!</button>
-      <button onClick={onClick2}>Say Hello!</button>
+      <button onClick={onClick}>Cancel</button>
+      <button onClick={onClick2}>Sponsor this square</button>
     </div>
   )
 }
