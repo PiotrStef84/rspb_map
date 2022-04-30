@@ -10,7 +10,7 @@ import LocationInfoBox from "./LocationInfoBox";
 
 import {useState} from 'react'
 
-const newSquareOptions = {
+const sponsoredSquareStyling = {
     strokeColor: "#FF0000",
     strokeOpacity: 0.8,
     strokeWeight: 2,
@@ -54,34 +54,43 @@ function Map() {
     const [newSquares, setSquares] = useState([]);
        
    const squares = Data.map(ev =>{
-       return <Square id={ev.id} north={ev.north} south={ev.south} east={ev.east} west={ev.west} onClick={() => setLocationInfo({id: ev.id, words: ev.words})} options={newSquareOptions}/>
+       return <Square id={ev.id} north={ev.north} south={ev.south} east={ev.east} west={ev.west} onClick={() => setLocationInfo({id: ev.id, words: ev.words})} options={sponsoredSquareStyling}/>
    })
 
   function replaceSquares(){
+
+    let id;
+    let north;
+    let east;
+    let south;
+    let west;
+    let words;
     
       for (let i = 0; i < newSquares.length; i++) {
 
         if(newSquares[i].id === 100){         
-          const id = Data.length;
-          const north = newSquares[i].north;
-          const east = newSquares[i].east;
-          const south = newSquares[i].south;
-          const west =  newSquares[i].west;
-          const words = newSquares[i].words;
+          id = Data.length;
+          north = newSquares[i].north;
+          east = newSquares[i].east;
+          south = newSquares[i].south;
+          west =  newSquares[i].west;
+          words = newSquares[i].words;
                   
           newSquares.splice(i, 1)
           i--;
           console.log("HEY")
         
-          Data.push({
-            id: id,
-            north: north,
-            east: east,
-            south: south,
-            west: west,
-            words: words,
-          })
-        }}}
+
+        }}
+        Data.push({
+          id: id,
+          north: north,
+          east: east,
+          south: south,
+          west: west,
+          words: words,
+        })
+      }
   
     const {isLoaded, loadError} = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
