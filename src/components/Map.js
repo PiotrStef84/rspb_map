@@ -57,7 +57,7 @@ function Map() {
        return <Square id={ev.id} north={ev.north} south={ev.south} east={ev.east} west={ev.west} onClick={() => setLocationInfo({id: ev.id, words: ev.words})} options={sponsoredSquareStyling}/>
    })
 
-  function replaceSquares(){
+  function replaceSquares(time){
 
     let id;
     let north;
@@ -68,7 +68,7 @@ function Map() {
     
       for (let i = 0; i < newSquares.length; i++) {
 
-        if(newSquares[i].id === 100){         
+        if(newSquares[i].time.toISOString() === time){         
           id = Data.length;
           north = newSquares[i].north;
           east = newSquares[i].east;
@@ -150,14 +150,14 @@ function Map() {
         >
           {newSquares.map(ev =>(
             <Square key={ev.time.toISOString()} 
-            id={ev.id} north={ev.north} south={ev.south} east={ev.east} west={ev.west} onClick={() => setLocationInfo({id: 100, words: ev.words})}/>
+            id={ev.id} north={ev.north} south={ev.south} east={ev.east} west={ev.west} onClick={() => setLocationInfo({id: 100, words: ev.words, time: ev.time.toISOString()})}/>
           ))}
 
         {squares}
         
         <Border/>
         </GoogleMap>
-        {locationInfo && <LocationInfoBox info={locationInfo} onClick={() => setLocationInfo(null)} onClick2={() => replaceSquares(locationInfo.id)}/>}
+        {locationInfo && <LocationInfoBox info={locationInfo} onClick={() => setLocationInfo(null)} onClick2={() => replaceSquares(locationInfo.time)}/>}
         </div>
         </>
   )
